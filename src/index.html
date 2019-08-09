@@ -7,8 +7,33 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    .skip-navigation__link--visibility {
+      position: absolute;
+      left: -99999px;
+      top: 30px;
+    }
+
+    .skip-navigation__link--visibility:focus {
+      position: relative;
+      left: 0;
+      z-index:9999;
+      width: 75%;
+      height: auto;
+      margin: 0 auto;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 1px;
+      color: #5e2f03;
+      border: 1px dotted #5e2f03;
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+  <a class="skip-navigation__link--visibility" href="#content" rel="nofollow">skip to main content<a>
+  <main id="content">
+    <app-root></app-root>
+  </main>
 </body>
 </html>

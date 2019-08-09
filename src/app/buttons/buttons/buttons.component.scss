@@ -1,0 +1,13 @@
+.buttons__container {
+  align-self: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+@media (max-width: 425px) {
+  .buttons__container {
+    flex-direction: column;
+  }
+}

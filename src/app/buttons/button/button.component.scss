@@ -1,0 +1,41 @@
+
+.button__container {
+  position: relative;
+  overflow: visible;
+}
+.button {
+  color: white;
+  cursor: pointer;
+  background-color: darkblue;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  transition: background-color 400ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  &:active {
+    background-color: black!important;
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:focus {
+    background-color: rgb(4, 4, 100)!important;
+    outline: none;
+    
+  }
+}
+
+@media (max-width: 425px) {
+  :host {
+    width: 100%;
+  }
+  .button__container{
+    display: flex;
+    justify-content: center;
+    margin: 2rem 16px;
+  }
+  .button {
+    width: 100%;
+  }
+}
