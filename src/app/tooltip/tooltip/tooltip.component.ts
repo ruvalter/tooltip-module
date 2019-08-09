@@ -1,6 +1,8 @@
+import { KeyboardCodes } from './../../_shared/app-constants';
 import { Component, OnInit, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
 import { fromEvent, Subscription, BehaviorSubject} from 'rxjs';
 import { merge, tap, delay} from 'rxjs/operators';
+import { WindowEvents } from 'src/app/_shared/app-constants';
 
 @Component({
   selector: 'app-tooltip',
@@ -11,15 +13,16 @@ export class TooltipComponent implements OnInit, OnDestroy {
 
   $isShown: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   subscription: Subscription = new Subscription();
-  constructor(private renderer: Renderer2, private elementRef:ElementRef) { 
-    
-  }
+
+  constructor(private renderer: Renderer2, private elementRef:ElementRef) { }
 
   ngOnInit() {
-    const clickSource = fromEvent(document, 'click');
-    const keyups = fromEvent(document, 'keyup');
-    const keydowns = fromEvent(document, 'keydown');
-    const scroll = fromEvent(window, 'scroll');
+    // Add event listeners
+    const clickSource = fromEvent(document, WindowEvents.click);
+    const keyups = fromEvent(document, WindowEvents.keyup);
+    const keydowns = fromEvent(document, WindowEvents.keydown);
+    const scroll = fromEvent(window, WindowEvents.scroll);
+
 
     const tooltipActive = this.$isShown
       .pipe(
@@ -31,8 +34,10 @@ export class TooltipComponent implements OnInit, OnDestroy {
             this.renderer.removeClass(this.elementRef.nativeElement, 'active');
           }
         })
-      ).subscribe();
+      );
 
+    // This subscription listens to scroll event 
+    // to decide whether should show above or below.    
     const scrollSource = scroll
       .pipe(
         tap(val => {
@@ -59,11 +64,12 @@ export class TooltipComponent implements OnInit, OnDestroy {
       .pipe(
         merge(keydowns),
         tap((event: KeyboardEvent) => {
-          if(event.keyCode === 27) {
+          if(event.keyCode === KeyboardCodes.escape) {
             this.$isShown.next(false);
           }
       }));
 
+    this.subscription.add(tooltipActive.subscribe())
     this.subscription.add(keyPresses.subscribe());
     this.subscription.add(clicks.subscribe());
     this.subscription.add(scrollSource.subscribe());
@@ -75,7 +81,8 @@ export class TooltipComponent implements OnInit, OnDestroy {
 
   show() {
     setTimeout(() => {
-      this.$isShown.next(true)
+      // Waits for the click event action
+      this.$isShown.next(true);
     }, 0);
   }
 
