@@ -1,6 +1,6 @@
 :host {
   &.flip {
-    .tooltip__container {
+    .tooltip {
       bottom: unset;
       top: calc(100% + 5px);
       &:before {
@@ -11,13 +11,23 @@
       }
     }
   }
+  &.active {
+    & .tooltip {
+      transform: scale(1);
+      opacity: 1;
+      &:before {
+        transform: translateY(0);
+      }
+    }
+  }
 }
 
-.tooltip__container {
+.tooltip {
   background-color: rgba(169, 169, 169, 0.95);
   color: white;
   border: none;
   border-radius: 10px;
+  opacity: 0;
   padding: 16px;
   position: absolute;
   left: 0;
@@ -25,6 +35,8 @@
   width: auto;
   text-align: center;
   white-space: nowrap;
+  transform: scale(0.7);
+  transition: transform 400ms ease-in-out, opacity 300ms ease-in-out;
   z-index: 99;
   &:before {
     border-style: solid;
@@ -33,6 +45,8 @@
     content: "";
     margin-left: -0.5em;
     position: absolute;
-    top: 85%
+    transition: transform 450ms ease-in-out;
+    top: 85%;
+    transform: translateY(-10px);
   }
 }

@@ -1,13 +1,13 @@
-.buttons__container {
+.buttons {
   align-self: center;
+  align-items: center;
   display: flex;
   justify-content: space-around;
-  align-items: center;
   width: 100%;
 }
 
-@media (max-width: 425px) {
-  .buttons__container {
+@media (max-width: 30em) {
+  .buttons {
     flex-direction: column;
   }
 }

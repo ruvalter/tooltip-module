@@ -1,3 +1,3 @@
-<div class="tooltip__container" *ngIf="isShown">
+<div class="tooltip" *ngIf="$isShown | async">
   <ng-content></ng-content>
 </div>

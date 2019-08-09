@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
-import { fromEvent, Subscription} from 'rxjs';
-import { map, merge, tap } from 'rxjs/operators';
+import { fromEvent, Subscription, BehaviorSubject} from 'rxjs';
+import { merge, tap, delay} from 'rxjs/operators';
 
 @Component({
   selector: 'app-tooltip',
@@ -9,7 +9,7 @@ import { map, merge, tap } from 'rxjs/operators';
 })
 export class TooltipComponent implements OnInit, OnDestroy {
 
-  isShown = false;
+  $isShown: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   subscription: Subscription = new Subscription();
   constructor(private renderer: Renderer2, private elementRef:ElementRef) { 
     
@@ -21,26 +21,37 @@ export class TooltipComponent implements OnInit, OnDestroy {
     const keydowns = fromEvent(document, 'keydown');
     const scroll = fromEvent(window, 'scroll');
 
+    const tooltipActive = this.$isShown
+      .pipe(
+        delay(10),
+        tap(val => {
+          if(val) {
+            this.renderer.addClass(this.elementRef.nativeElement, 'active');
+          } else {
+            this.renderer.removeClass(this.elementRef.nativeElement, 'active');
+          }
+        })
+      ).subscribe();
+
     const scrollSource = scroll
-      .pipe(tap(val => {
-        const elPosition = this.elementRef.nativeElement.getBoundingClientRect().top;
-        if(elPosition < 50) {
-          this.renderer.addClass(this.elementRef.nativeElement, 'flip')
-          console.log('below');
-        } else {
-          this.renderer.removeClass(this.elementRef.nativeElement, 'flip')
-          console.log('above');
-        }
+      .pipe(
+        tap(val => {
+          const elPosition = this.elementRef.nativeElement.getBoundingClientRect().top;
+          if(elPosition < 50) {
+            this.renderer.addClass(this.elementRef.nativeElement, 'flip')
+          } else {
+            this.renderer.removeClass(this.elementRef.nativeElement, 'flip')
+          }
       }))
 
     const clicks = clickSource
       .pipe(
-        map(event => {
+        tap(event => {
           const clickedInside = this.elementRef.nativeElement.contains(event.target);
           if(clickedInside) {
-              this.isShown = true;
+              this.$isShown.next(true);
           } else {
-              this.isShown = false;
+              this.$isShown.next(false);;
           }
       }));
 
@@ -49,7 +60,7 @@ export class TooltipComponent implements OnInit, OnDestroy {
         merge(keydowns),
         tap((event: KeyboardEvent) => {
           if(event.keyCode === 27) {
-            this.isShown = false;
+            this.$isShown.next(false);
           }
       }));
 
@@ -63,7 +74,9 @@ export class TooltipComponent implements OnInit, OnDestroy {
   }
 
   show() {
-    setTimeout(() => {this.isShown = true}, 0);
+    setTimeout(() => {
+      this.$isShown.next(true)
+    }, 0);
   }
 
 
