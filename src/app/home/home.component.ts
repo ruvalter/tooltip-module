@@ -1,3 +1,4 @@
+import { Button } from './../_shared/button.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
@@ -9,15 +10,16 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('tooltipA') tooltipA;
   @ViewChild('tooltipB') tooltipB;
-  buttons = [
+
+  buttons: Button[] = [
     {
       label: 'Tooltip A', 
-      template: 'Hi, I am button A!', 
+      tooltip: 'Hi, I am button A!', 
       click: () => console.log('A')
     },
     {
       label: 'Tooltip B', 
-      template: 'Hey, I am B!', 
+      tooltip: 'Hey, I am B!', 
       click: () => console.log('B')
     }
   ]

@@ -1,3 +1,4 @@
+import { Button } from './../../_shared/button.model';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -7,10 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ButtonsComponent implements OnInit {
 
-  @Input() buttons: any;
+  @Input() buttons: Button[];
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

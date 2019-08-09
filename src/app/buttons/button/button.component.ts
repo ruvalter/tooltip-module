@@ -12,8 +12,12 @@ export class ButtonComponent implements OnInit {
 
   ngOnInit() {
   }
+  
   onClickAction(tooltip) {
+    // This is only for showing an possible custom action we might need to pass in
     this.config.click();
+
+    // Brings up the tooltip
     tooltip.show();
   }
 
