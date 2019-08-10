@@ -7,7 +7,7 @@
   </div>
   <div class="home--spacer"></div>
   <div class="home__buttons">
-    <app-buttons [buttons]="buttons"></app-buttons>
+    <app-buttons [buttons]="buttons" (onButtonClick)="buttonClicked($event)"></app-buttons>
   </div>
   <div class="home__scope">
     <h2 class="scope__title">Scope of the challenge:</h2>

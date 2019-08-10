@@ -1,5 +1,6 @@
+import { ButtonType } from './../../_shared/app-constants';
 import { Button } from './../../_shared/button.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-buttons',
@@ -9,8 +10,14 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ButtonsComponent implements OnInit {
 
   @Input() buttons: Button[];
+  @Output() onButtonClick: EventEmitter<ButtonType> = new EventEmitter<ButtonType>();
+
   constructor() { }
 
   ngOnInit() {}
+
+  buttonClick(buttonInfo: ButtonType): void {
+    this.onButtonClick.emit(buttonInfo);
+  }
 
 }

@@ -1,5 +1,5 @@
 <div class="buttons">
   <ng-container *ngFor="let button of buttons">
-    <app-button [config]="button"></app-button>
+    <app-button [config]="button" (buttonClick)="buttonClick($event)"></app-button>
   </ng-container>
 </div>

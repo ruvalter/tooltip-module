@@ -1,5 +1,7 @@
+import { ButtonType } from './../_shared/app-constants';
 import { Button } from './../_shared/button.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 
 @Component({
   selector: 'app-home',
@@ -15,18 +17,26 @@ export class HomeComponent implements OnInit {
     {
       label: 'Tooltip A', 
       tooltip: 'Hi, I am button A!', 
-      click: () => console.log('A')
+      type: 'a'
     },
     {
       label: 'Tooltip B', 
       tooltip: 'Hey, I am B!', 
-      click: () => console.log('B')
+      type: 'b'
     }
   ]
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  buttonClicked(buttonInfo: ButtonType) {
+    if(buttonInfo === ButtonType.a) {
+      console.log('A has been called!');
+    } else if(buttonInfo === ButtonType.b) {
+      console.log('B has been called!');
+    }
   }
 
 }
