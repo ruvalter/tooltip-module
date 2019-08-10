@@ -4,7 +4,7 @@
     tabindex="0" 
     id="headerLink"
     class="header__link" 
-    href="home#mainLink" 
+    [href]="skipToMain" 
     rel="nofollow">skip to main content</a>
   <span class="header__title">Ruvalter Franca Augost 09, 2019</span>
 </header>
@@ -14,7 +14,7 @@
       tabindex="0"
       id="mainLink"
       class="main__link" 
-      href="home#headerLink" 
+      [href]="skipToHeader" 
       rel="nofollow">skip to navigation</a>
     <router-outlet></router-outlet>
 </main>
